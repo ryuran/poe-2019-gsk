@@ -1,19 +1,21 @@
-{# autre.twig #}
+{# test.twig #}
 {# ------------------------------------------------------------------------- #}
 
 {# VARIABLES STATIQUES #}
 {# ------------------------------------------------------------------------- #}
 {# Préférez mettre vos variables dans le fichier:                            #}
-{#     ./src/data/pages/subpages/autre.json                                  #}
+{#     ./src/data/pages/test.json                                            #}
 {# De même, les variables "globales" d'environnement devrais être dans:      #}
 {#     ./src/data/data.json                                                  #}
 
 {# LAYOUT #}
 {# ------------------------------------------------------------------------- #}
-{% extends "../../layouts/_default.twig" %}
+{% extends "../layouts/_page.twig" %}
 
 {# GABARIT PRINCIPAL #}
 {# ------------------------------------------------------------------------- #}
-{% block main %}
-  <p>Un autre test</p>
-{% endblock main %}
+{% block article_content %}
+  {% include './ajax/second.twig' with {'variable': 'variable de test'} only %}
+{% endblock %}
+
+{% block aside %}{% endblock %}

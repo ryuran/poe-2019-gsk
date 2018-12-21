@@ -1,0 +1,33 @@
+{% extends "../layouts/_default.twig" %}
+
+{% block main %}
+  <header>
+    <h1>Responsive Web Design</h1>
+  </header>
+  <nav id="menu">
+    <ul>
+      <li><a href="">Accueil</a></li>
+      <li><a href="">Rubrique</a></li>
+      <li><a href="">Contact</a></li>
+    </ul>
+  </nav>
+  {% block article %}
+    <article>
+      {% block article_content %}{% endblock %}
+    </article>
+  {% endblock %}
+
+  {% block aside %}
+    <aside>
+      {% block aside_content %}{% endblock %}
+    </aside>
+  {% endblock %}
+  <footer>
+    <ul>
+      <li>&copy; Clever Age 2013-2015</li>
+      <li><a href="">Conditions d'utilisation</a></li>
+      <li><a href="">Plan du site</a></li>
+      <li><a href="">Contact</a></li>
+    </ul>
+  </footer>
+{% endblock %}

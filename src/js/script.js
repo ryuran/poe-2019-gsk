@@ -1,36 +1,41 @@
-/** script */
+const responsiveNav = require('responsive-nav')
 
-// import from a lib
-var lib = require('./lib/lib');
+responsiveNav('nav')
 
-// or from another module
-// var toto2 = require('./toto2')
+const mq = window.matchMedia('(min-width: 35em)')
 
-// or directly import from node_modules
-// var _ = require('underscore');
+const loadPartial = () => {
+  const link = document.querySelector('[data-ajax-replace]')
+  if (!link) {
+    return
+  }
+  const url = link.getAttribute('data-ajax-replace')
 
-// some behaviour for our module
-function foo(firstname) {
-  window.console.log('Hello %s!', firstname);
+  const options = {
+    headers: new Headers(),
+  }
+
+  options.headers.append('Content-Type', 'application/json')
+  options.headers.append('X-Requested-With', 'XMLHttpRequest')
+
+  return fetch(url, options)
+    .then((response) => {
+      if (response.ok) {
+        return response
+      }
+
+      const error = new Error(response.statusText)
+      error.response = response
+      throw error
+    })
+    .then((response) => {
+      response.text().then((text) => {
+        link.insertAdjacentHTML('afterend', text)
+        link.parentNode.removeChild(link)
+      })
+    })
 }
 
-foo(lib.firstname);
-
-// Use jQuery exposed as global by webpack config
-// for console, external script on inline js if needed
-var $ = require('jquery');
-
-// you can add jquery plugin just by requiring them (if they are compatible with CommonJS)
-require('slick-carousel');
-// now, that should work:
-$('#carousel').slick(); // FYI no `#carousel` element on page :D
-
-// Require lib that are not compatible with CommonJS (see `webpack-config.js`)
-// And https://webpack.github.io/docs/shimming-modules.html
-
-
-// if you want to use global var from external lib
-window.globalVar = 'Loaded via window.globalVar';
-
-// expose foo to other modules
-module.exports = foo;
+if (mq.matches) {
+  loadPartial()
+}
